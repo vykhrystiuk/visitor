@@ -15,8 +15,6 @@ use yii\web\BadRequestHttpException;
 class HttpError extends Object
 {
     /**
-     * Вызывает ошибку входящих данных - Code 400
-     *
      * @param string $message
      *
      * @throws BadRequestHttpException
@@ -27,8 +25,6 @@ class HttpError extends Object
     }
 
     /**
-     * Вызывает ошибку отсутствия записи - Code 404
-     *
      * @param string $message
      *
      * @throws NotFoundHttpException
@@ -39,8 +35,6 @@ class HttpError extends Object
     }
 
     /**
-     * Вызывает ошибку доступа - Code 403
-     *
      * @param string $message
      *
      * @throws ForbiddenHttpException
@@ -51,8 +45,6 @@ class HttpError extends Object
     }
 
     /**
-     * Вызывает ошибку сервера - Code 500
-     *
      * @param string $message
      *
      * @throws \Exception

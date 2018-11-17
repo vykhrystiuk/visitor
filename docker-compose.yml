@@ -1,9 +1,10 @@
-version: '2'
+version: '3.3'
 services:
-  php:
-    image: yiisoftware/yii2-php:7.1-apache
+  wizbl:
+    build: ./docker/wizbl
+    tty: true
     volumes:
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      - ./:/app:delegated
+      - ./docker/wizbl/config/wizbl_tempcoincore.conf:/root/.wizbl_tempcoincore/wizbl_tempcoincore.conf
+      - ./docker/var/data/wizbl:/root/.wizbl_tempcoincore/testnet3
     ports:
-      - '8000:80'
+      - "18724:18724"
