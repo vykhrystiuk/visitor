@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\TimestampBehavior;
+use app\components\wizbl\WizblClient;
 use Yii;
 use yii\web\UploadedFile;
 
@@ -95,6 +96,20 @@ class Review extends \yii\db\ActiveRecord
             if ($this->state == self::STATE_APPROVED) {
                 $this->task->quota --;
                 $this->task->save(false, ['quota']);
+
+                # review set transaction
+                $client = new WizblClient();
+                $hash = $client->sendFrom($this->user->wallet, $this->task->amount);
+                $this->transaction_hash = $hash;
+                $this->paid_amount = $this->task->amount;
+                $this->save(false, ['transaction_hash', 'paid_amount']);
+
+                # company update balance
+                $this->task->user->balance = $this->task->user->balance - $this->task->amount;
+                $this->task->user->save(false, ['balance']);
+
+                # visitor update balance
+                $this->user->balance = (int)$this->user->balance + (int)$this->task->amount;
             }
         }
 
