@@ -1,16 +1,12 @@
 <?php
 
-/* @var $this yii\web\View */
+/**
+ * @var $this yii\web\View
+ * @var $companies \app\models\User[]
+ */
 
-$this->title = 'Visitor';
+$this->title = 'Companies';
+
+\yii\helpers\VarDumper::dump($companies,3,1);
 ?>
-<div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Companies</h1>
-    </div>
-
-    <div class="body-content">
-
-    </div>
-</div>

@@ -3,13 +3,10 @@
 /**
  * @var $this yii\web\View
  * @var $tasks \app\models\Task[]
+ * @var $company \app\models\User
  */
 
-$this->title = 'Tasks';
-
-echo \yii\helpers\Html::a('Create', ['create'], ['class' => 'btn btn-primary']);
+$this->title = $company->username . ' tasks';
 
 \yii\helpers\VarDumper::dump($tasks,3,1);
 ?>
-
-

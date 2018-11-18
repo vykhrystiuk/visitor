@@ -26,6 +26,9 @@ use yii\web\IdentityInterface;
  * @property string $imagePath
  * @property string $created_at
  * @property string $updated_at
+ *
+ * @property Review[] $reviews
+ * @property Task[] $tasks
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -103,6 +106,22 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             TimestampBehavior::className(),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReviews()
+    {
+        return $this->hasMany(Review::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks()
+    {
+        return $this->hasMany(Task::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -216,5 +235,26 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    }
+
+    /**
+     * @return array|User[]
+     */
+    public static function getCompanies(): array
+    {
+        return self::findAll(['role' => self::ROLE_COMPANY]);
+    }
+
+    /**
+     * @return array|Task[]
+     */
+    public function getFreeTasks(): array
+    {
+        return $this->getTasks()->andWhere(['>', 'quota', 0])->all();
+    }
+
+    public static function getCurrentBalance()
+    {
+        return Yii::$app->user->identity->balance;
     }
 }
