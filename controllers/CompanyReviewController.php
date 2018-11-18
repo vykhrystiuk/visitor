@@ -35,7 +35,7 @@ class CompanyReviewController extends Controller
     public function actionApprove($id)
     {
         $review = Review::findOne($id);
-        if (!$review || $review->task->user_id != Yii::$app->user->id || $review->state != Review::STATE_IDLE) {
+        if (!$review || $review->task->user_id != Yii::$app->user->id) {
             HttpError::the404();
         }
 
@@ -50,7 +50,7 @@ class CompanyReviewController extends Controller
     public function actionDecline($id)
     {
         $review = Review::findOne($id);
-        if (!$review || $review->task->user_id != Yii::$app->user->id || $review->state != Review::STATE_IDLE) {
+        if (!$review || $review->task->user_id != Yii::$app->user->id) {
             HttpError::the404();
         }
 

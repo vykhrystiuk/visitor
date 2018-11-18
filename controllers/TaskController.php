@@ -21,16 +21,22 @@ class TaskController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         $options = $post['option'] ?? ['first', 'second'];
+
         if (!$options) {
             $model->addError('options', 'Options is required');
         }
 
-        if ($model->load($post) && $model->validate()) {
+        if ($post && $model->load($post)) {
             $model->options = $options;
-            $model->save();
-            Yii::$app->session->setFlash('success', 'Task created');
+            $model->features = (int)isset($post['features']);
 
-            return $this->redirect(['index']);
+            if ($model->validate()) {
+                $model->save();
+                Yii::$app->session->setFlash('success', 'Task created');
+
+                return $this->redirect(['index']);
+            }
+
         }
 
         return $this->render('create', [
